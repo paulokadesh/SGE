@@ -11,6 +11,13 @@ Certifique-se de que você tenha os seguintes requisitos instalados em seu siste
 - Outras dependências listadas no arquivo `requirements.txt`
 
 
+criando ambiente virtual
+python3 -m venv venv
+
+ativando 
+venv\Scripts\activate
+
+
 ## Instalação das Dependências
 
 Com o ambiente virtual ativado, instale as dependências do projeto usando o comando:
