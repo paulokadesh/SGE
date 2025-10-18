@@ -40,3 +40,17 @@ python manage.py runserver
 
 Após isso, o sistema estará pronto para ser acessado em:
 [http://localhost:8000](http://localhost:8000)
+
+
+criar branch nova exemplo
+git checkout -b claude-code/redesign
+
+comandos uteis
+Comandos Úteis para Gerenciar Branches:
+Se quiser voltar para a main:
+git checkout main
+Se quiser voltar para a branch de redesign:
+git checkout claude-code/redesign
+
+Para ver todas as branches:
+git branch -a
