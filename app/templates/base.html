@@ -1,37 +1,230 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="pt-br" data-bs-theme="dark">
+<html lang="pt-br" class="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}Sistema de Gestão de Estoque{% endblock %}</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+            'slide-down': 'slideDown 0.5s ease-out',
+            'slide-right': 'slideRight 0.3s ease-out',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'gradient': 'gradient 15s ease infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            slideDown: {
+              '0%': { transform: 'translateY(-20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            slideRight: {
+              '0%': { transform: 'translateX(-100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+            gradient: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Animated Gradient Background */
+    .animated-gradient {
+      background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #4c1d95, #5b21b6);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+
+    /* Glass Morphism Effect */
+    .glass-effect {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-effect-light {
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #4f46e5, #6366f1);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #6366f1, #818cf8);
+    }
+
+    /* Smooth transitions for all elements */
+    * {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Sidebar transition */
+    .sidebar-transition {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+
+    /* Hover glow effect */
+    .hover-glow:hover {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Focus ring */
+    .focus-ring:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
 </head>
 
-<body>
+<body class="antialiased bg-slate-950 text-gray-100 min-h-screen flex flex-col">
+  <!-- Animated Background -->
+  <div class="fixed inset-0 animated-gradient -z-10"></div>
+
+  <!-- Background Decorative Elements -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+    <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-20 right-10 w-[32rem] h-[32rem] bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+  </div>
+
+  <!-- Header -->
   {% include 'components/_header.html' %}
 
-  <div class="container-fluid">
+  <!-- Main Layout with Sidebar -->
+  <div class="flex-1 flex overflow-hidden">
     {% if user.is_authenticated %}
+      <!-- Sidebar -->
       {% include 'components/_sidebar.html' %}
     {% endif %}
 
-      <div class="col py-3">
-
-        <div class="container mt-4">
-          <main>
-            {% block content %}
-            {% endblock %}
-          </main>
-        </div>
-
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto">
+      <div class="container mx-auto px-4 py-6 lg:px-8 lg:py-8 animate-fade-in">
+        {% block content %}
+        {% endblock %}
       </div>
-    </div>
+    </main>
   </div>
+
+  <!-- Footer -->
   {% include 'components/_footer.html' %}
+
+  <!-- Mobile Sidebar Toggle Script -->
+  <script>
+    // Sidebar toggle for mobile
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+
+      if (sidebar && overlay) {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+      }
+    }
+
+    // Close sidebar when clicking overlay
+    document.addEventListener('DOMContentLoaded', function() {
+      const overlay = document.getElementById('sidebar-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', toggleSidebar);
+      }
+
+      // Close sidebar on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          const sidebar = document.getElementById('sidebar');
+          const overlay = document.getElementById('sidebar-overlay');
+          if (sidebar && overlay && !sidebar.classList.contains('-translate-x-full')) {
+            toggleSidebar();
+          }
+        }
+      });
+
+      // Add active state to current page link
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.sidebar-link');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active-link');
+        }
+      });
+    });
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
 </body>
 
 </html>

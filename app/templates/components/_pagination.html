@@ -1,49 +1,153 @@
 {% if page_obj.has_other_pages %}
-  <nav>
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="?page=1">
-            Primeira
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-            Anterior
-          </a>
-        </li>
-      {% endif %}
+  <nav aria-label="Paginação" class="mt-8">
+    <div class="flex items-center justify-center">
+      <ul class="flex items-center space-x-2">
+        <!-- First and Previous Buttons -->
+        {% if page_obj.has_previous %}
+          <!-- First Page Button -->
+          <li>
+            <a
+              href="?page=1"
+              class="group relative flex items-center justify-center w-10 h-10 bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 rounded-lg hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 hover:border-transparent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-indigo-500/30"
+              aria-label="Primeira página"
+            >
+              <i class="bi bi-chevron-double-left text-gray-400 group-hover:text-white transition-colors duration-300"></i>
+            </a>
+          </li>
 
-      {% for page_number in page_obj.paginator.page_range %}
-        {% if page_number <= page_obj.number|add:3 and page_number >= page_obj.number|add:-3 %}
-          {% if page_obj.number == page_number %}
-            <li class="page-item active">
-              <a class="page-link" href="?page={{ page_number }}">
-                {{ page_number }}
-              </a>
-            </li>
-          {% else %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{ page_number }}">
-                {{ page_number }}
-              </a>
-            </li>
-          {% endif %}
+          <!-- Previous Page Button -->
+          <li>
+            <a
+              href="?page={{ page_obj.previous_page_number }}"
+              class="group relative flex items-center justify-center px-4 h-10 bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 rounded-lg hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 hover:border-transparent transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/30"
+              aria-label="Página anterior"
+            >
+              <i class="bi bi-chevron-left text-gray-400 group-hover:text-white transition-colors duration-300 mr-2"></i>
+              <span class="text-sm font-medium text-gray-400 group-hover:text-white transition-colors duration-300 hidden sm:inline">
+                Anterior
+              </span>
+            </a>
+          </li>
+        {% else %}
+          <!-- Disabled First Page Button -->
+          <li>
+            <span
+              class="flex items-center justify-center w-10 h-10 bg-slate-900/50 border border-slate-800/50 rounded-lg cursor-not-allowed opacity-50"
+              aria-label="Primeira página (desabilitado)"
+            >
+              <i class="bi bi-chevron-double-left text-gray-600"></i>
+            </span>
+          </li>
+
+          <!-- Disabled Previous Page Button -->
+          <li>
+            <span
+              class="flex items-center justify-center px-4 h-10 bg-slate-900/50 border border-slate-800/50 rounded-lg cursor-not-allowed opacity-50"
+              aria-label="Página anterior (desabilitado)"
+            >
+              <i class="bi bi-chevron-left text-gray-600 mr-2"></i>
+              <span class="text-sm font-medium text-gray-600 hidden sm:inline">Anterior</span>
+            </span>
+          </li>
         {% endif %}
-      {% endfor %}
 
-      {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-            Próxima
-          </a>
+        <!-- Page Numbers -->
+        <li class="hidden md:flex items-center space-x-2 mx-2">
+          {% for page_number in page_obj.paginator.page_range %}
+            {% if page_number <= page_obj.number|add:3 and page_number >= page_obj.number|add:-3 %}
+              {% if page_obj.number == page_number %}
+                <!-- Active Page -->
+                <a
+                  href="?page={{ page_number }}"
+                  class="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 border-2 border-indigo-400/50 rounded-lg shadow-lg shadow-indigo-500/40 transition-all duration-300"
+                  aria-label="Página {{ page_number }}"
+                  aria-current="page"
+                >
+                  <span class="text-sm font-bold text-white">{{ page_number }}</span>
+                  <div class="absolute inset-0 bg-white/20 rounded-lg animate-pulse"></div>
+                </a>
+              {% else %}
+                <!-- Inactive Page -->
+                <a
+                  href="?page={{ page_number }}"
+                  class="group relative flex items-center justify-center w-10 h-10 bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 rounded-lg hover:bg-slate-700/80 hover:border-indigo-500/50 transition-all duration-300 hover:scale-110"
+                  aria-label="Página {{ page_number }}"
+                >
+                  <span class="text-sm font-medium text-gray-400 group-hover:text-white transition-colors duration-300">
+                    {{ page_number }}
+                  </span>
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
         </li>
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
-            Última
-          </a>
+
+        <!-- Mobile: Current Page Indicator -->
+        <li class="flex md:hidden items-center space-x-2 mx-2">
+          <div class="flex items-center justify-center px-4 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 border-2 border-indigo-400/50 rounded-lg shadow-lg">
+            <span class="text-sm font-bold text-white">
+              {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+            </span>
+          </div>
         </li>
-      {% endif %}
-    </ul>
+
+        <!-- Next and Last Buttons -->
+        {% if page_obj.has_next %}
+          <!-- Next Page Button -->
+          <li>
+            <a
+              href="?page={{ page_obj.next_page_number }}"
+              class="group relative flex items-center justify-center px-4 h-10 bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 rounded-lg hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 hover:border-transparent transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/30"
+              aria-label="Próxima página"
+            >
+              <span class="text-sm font-medium text-gray-400 group-hover:text-white transition-colors duration-300 hidden sm:inline">
+                Próxima
+              </span>
+              <i class="bi bi-chevron-right text-gray-400 group-hover:text-white transition-colors duration-300 ml-2"></i>
+            </a>
+          </li>
+
+          <!-- Last Page Button -->
+          <li>
+            <a
+              href="?page={{ page_obj.paginator.num_pages }}"
+              class="group relative flex items-center justify-center w-10 h-10 bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 rounded-lg hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 hover:border-transparent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-indigo-500/30"
+              aria-label="Última página"
+            >
+              <i class="bi bi-chevron-double-right text-gray-400 group-hover:text-white transition-colors duration-300"></i>
+            </a>
+          </li>
+        {% else %}
+          <!-- Disabled Next Page Button -->
+          <li>
+            <span
+              class="flex items-center justify-center px-4 h-10 bg-slate-900/50 border border-slate-800/50 rounded-lg cursor-not-allowed opacity-50"
+              aria-label="Próxima página (desabilitado)"
+            >
+              <span class="text-sm font-medium text-gray-600 hidden sm:inline">Próxima</span>
+              <i class="bi bi-chevron-right text-gray-600 ml-2"></i>
+            </span>
+          </li>
+
+          <!-- Disabled Last Page Button -->
+          <li>
+            <span
+              class="flex items-center justify-center w-10 h-10 bg-slate-900/50 border border-slate-800/50 rounded-lg cursor-not-allowed opacity-50"
+              aria-label="Última página (desabilitado)"
+            >
+              <i class="bi bi-chevron-double-right text-gray-600"></i>
+            </span>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <!-- Page Info -->
+    <div class="mt-4 text-center">
+      <p class="text-sm text-gray-500">
+        Mostrando página <span class="font-semibold text-indigo-400">{{ page_obj.number }}</span>
+        de <span class="font-semibold text-indigo-400">{{ page_obj.paginator.num_pages }}</span>
+      </p>
+    </div>
   </nav>
 {% endif %}

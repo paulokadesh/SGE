@@ -1,5 +1,79 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white" href="{% url 'home' %}">Sistema de Gestão de Estoque (SGE)</a>
-  </div>
-</nav>
+<!-- Header/Navbar with Glass Effect and Gradient -->
+<header class="sticky top-0 z-50 glass-effect shadow-lg shadow-indigo-900/20 animate-slide-down">
+  <nav class="container mx-auto px-4 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+
+      <!-- Logo/Brand Section -->
+      <div class="flex items-center space-x-3 lg:space-x-4 animate-fade-in">
+        <!-- Logo Icon with Gradient -->
+        <div class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg hover-glow transform hover:scale-105 transition-all duration-300">
+          <i class="bi bi-box-seam text-white text-lg lg:text-xl"></i>
+        </div>
+
+        <!-- Brand Text -->
+        <div class="flex flex-col">
+          <a href="{% url 'home' %}" class="text-white font-bold text-base lg:text-xl tracking-tight hover:text-indigo-300 transition-colors duration-300">
+            Sistema de Gestão
+          </a>
+          <span class="text-indigo-300 text-[10px] lg:text-xs font-medium tracking-wide hidden sm:block">
+            Controle de Estoque
+          </span>
+        </div>
+      </div>
+
+      <!-- Right Section: User Menu & Mobile Toggle -->
+      <div class="flex items-center space-x-2 lg:space-x-4">
+
+        {% if user.is_authenticated %}
+          <!-- User Info (Desktop) -->
+          <div class="hidden md:flex items-center space-x-3 px-4 py-2 glass-effect-light rounded-xl">
+            <!-- User Avatar -->
+            <div class="flex items-center justify-center w-9 h-9 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full ring-2 ring-indigo-400/30">
+              <i class="bi bi-person-fill text-white text-sm"></i>
+            </div>
+
+            <!-- User Details -->
+            <div class="flex flex-col">
+              <span class="text-white text-sm font-semibold">{{ user.get_full_name|default:user.username }}</span>
+              <span class="text-indigo-300 text-xs">{{ user.email|truncatechars:20 }}</span>
+            </div>
+          </div>
+
+          <!-- Notifications Button (Optional) -->
+          <button
+            type="button"
+            class="hidden lg:flex items-center justify-center w-10 h-10 glass-effect-light rounded-xl hover:bg-indigo-500/20 transition-all duration-300 group focus-ring"
+            aria-label="Notificações"
+            title="Notificações"
+          >
+            <i class="bi bi-bell text-indigo-300 text-lg group-hover:text-white transition-colors"></i>
+          </button>
+
+          <!-- Mobile Menu Toggle -->
+          <button
+            onclick="toggleSidebar()"
+            type="button"
+            class="lg:hidden flex items-center justify-center w-10 h-10 glass-effect-light rounded-xl hover:bg-indigo-500/20 transition-all duration-300 focus-ring"
+            aria-label="Menu"
+            aria-expanded="false"
+            aria-controls="sidebar"
+          >
+            <i class="bi bi-list text-white text-2xl"></i>
+          </button>
+        {% else %}
+          <!-- Login Button (if not authenticated) -->
+          <a
+            href="{% url 'login' %}"
+            class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-xl text-white font-semibold text-sm shadow-lg hover:shadow-indigo-500/50 transform hover:scale-105 transition-all duration-300"
+          >
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Entrar</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Gradient Line Separator -->
+  <div class="h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-50"></div>
+</header>

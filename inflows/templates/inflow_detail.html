@@ -1,18 +1,196 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <div class="container mt-4">
-    <h3 class="display-4">Detalhes da Entrada</h3>
+{% block title %}
+  SGE - Entrada #{{ object.id }}
+{% endblock %}
 
-    <div class="card">
-      <div class="card-body">
-        <h3 class="card-title">{{ object.product }}</h3>
-        <p class="card-text">Fornecedor: <strong>{{ object.supplier }}</strong></p>
-        <p class="card-text">Quantidade: <strong>{{ object.quantity }}</strong></p>
-        <p class="card-text">{{ object.description }}</p>
+{% block content %}
+
+<!-- Header Section -->
+<div class="mb-8 animate-slide-down">
+  <div class="flex items-center space-x-3 mb-2">
+    <div class="p-3 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-lg">
+      <i class="bi bi-info-circle text-white text-2xl"></i>
+    </div>
+    <div>
+      <h1 class="text-3xl font-bold text-white">Detalhes da Entrada</h1>
+      <nav class="flex items-center space-x-2 text-sm text-gray-400 mt-1">
+        <a href="{% url 'home' %}" class="hover:text-emerald-400 transition-colors">Home</a>
+        <i class="bi bi-chevron-right text-xs"></i>
+        <a href="{% url 'inflow_list' %}" class="hover:text-emerald-400 transition-colors">Entradas</a>
+        <i class="bi bi-chevron-right text-xs"></i>
+        <span class="text-emerald-400">Entrada #{{ object.id }}</span>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Inflow Details Container -->
+<div class="max-w-5xl mx-auto">
+
+  <!-- Main Inflow Card -->
+  <div class="glass-effect rounded-2xl border-2 border-slate-700/50 shadow-2xl overflow-hidden animate-slide-up relative">
+
+    <!-- Gradient Border Effect -->
+    <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-green-500/20 to-teal-500/20 opacity-50 blur-xl"></div>
+
+    <div class="relative">
+      <!-- Card Header -->
+      <div class="px-8 py-6 bg-gradient-to-r from-slate-800/80 to-slate-900/80 border-b border-slate-700/50">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="p-2 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg">
+              <i class="bi bi-arrow-down-left-square text-white text-xl"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-white">{{ object.product }}</h2>
+              <p class="text-sm text-gray-400">Entrada ID: #{{ object.id }}</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <i class="bi bi-plus-circle mr-2"></i>
+              Entrada de Estoque
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Product Information -->
+          <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300">
+            <div class="flex items-start space-x-3">
+              <i class="bi bi-box-seam text-indigo-400 text-2xl"></i>
+              <div class="flex-1">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Produto</h3>
+                <p class="text-xl font-bold text-white">{{ object.product }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supplier Information -->
+          <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300">
+            <div class="flex items-start space-x-3">
+              <i class="bi bi-truck text-blue-400 text-2xl"></i>
+              <div class="flex-1">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Fornecedor</h3>
+                <span class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  {{ object.supplier }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quantity -->
+          <div class="p-6 bg-gradient-to-br from-emerald-500/10 to-green-600/10 rounded-xl border border-emerald-500/30 hover:border-emerald-500/50 transition-all duration-300">
+            <div class="flex items-start space-x-3">
+              <div class="p-2 bg-emerald-500/20 rounded-lg">
+                <i class="bi bi-123 text-emerald-400 text-2xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xs font-semibold text-emerald-300/80 uppercase tracking-wide mb-2">Quantidade</h3>
+                <div class="flex items-center space-x-2">
+                  <p class="text-2xl font-bold text-emerald-400">{{ object.quantity }}</p>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <i class="bi bi-plus-circle mr-1"></i>
+                    Unidades
+                  </span>
+                </div>
+                <p class="text-xs text-emerald-300/60 mt-1">Adicionadas ao estoque</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Created Date -->
+          <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300">
+            <div class="flex items-start space-x-3">
+              <i class="bi bi-calendar-check text-purple-400 text-2xl"></i>
+              <div class="flex-1">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Data da Entrada</h3>
+                <p class="text-lg font-semibold text-white">{{ object.created_at|date:"d/m/Y" }}</p>
+                <p class="text-sm text-gray-400 mt-1">às {{ object.created_at|date:"H:i" }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          {% if object.description %}
+            <div class="md:col-span-2 p-6 bg-slate-800/50 rounded-xl border border-slate-700/50">
+              <div class="flex items-start space-x-3">
+                <i class="bi bi-text-paragraph text-indigo-400 text-xl mt-1"></i>
+                <div class="flex-1">
+                  <h3 class="text-sm font-semibold text-indigo-200 uppercase tracking-wide mb-2">Observações</h3>
+                  <p class="text-gray-300 leading-relaxed">{{ object.description }}</p>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Timestamps (if available) -->
+          {% if object.created_at or object.updated_at %}
+            <div class="md:col-span-2 lg:col-span-3 p-6 bg-slate-800/50 rounded-xl border border-slate-700/50">
+              <div class="flex items-center space-x-2 mb-3">
+                <i class="bi bi-clock-history text-indigo-400 text-lg"></i>
+                <h3 class="text-sm font-semibold text-indigo-200 uppercase tracking-wide">Informações de Registro</h3>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {% if object.created_at %}
+                  <div class="flex items-center space-x-2 text-sm">
+                    <i class="bi bi-calendar-plus text-gray-500"></i>
+                    <span class="text-gray-400">Criado em:</span>
+                    <span class="text-white font-medium">{{ object.created_at|date:"d/m/Y H:i" }}</span>
+                  </div>
+                {% endif %}
+                {% if object.updated_at %}
+                  <div class="flex items-center space-x-2 text-sm">
+                    <i class="bi bi-calendar-check text-gray-500"></i>
+                    <span class="text-gray-400">Atualizado em:</span>
+                    <span class="text-white font-medium">{{ object.updated_at|date:"d/m/Y H:i" }}</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="px-8 py-6 bg-gradient-to-r from-slate-800/80 to-slate-900/80 border-t border-slate-700/50">
+        <div class="flex flex-wrap gap-4">
+
+          <!-- Back Button -->
+          <a
+            href="{% url 'inflow_list' %}"
+            class="group relative px-6 py-3 bg-slate-700/50 text-gray-300 font-semibold rounded-xl border border-slate-600 hover:bg-slate-600/50 hover:border-slate-500 hover:scale-105 transition-all duration-300"
+          >
+            <span class="flex items-center space-x-2">
+              <i class="bi bi-arrow-left text-lg"></i>
+              <span>Voltar para Lista</span>
+            </span>
+          </a>
+
+        </div>
       </div>
     </div>
-
-    <a href="{% url 'inflow_list' %}" class="btn btn-secondary mt-3">Voltar para a Lista de Entradas</a>
   </div>
+
+  <!-- Additional Info Card -->
+  <div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl animate-slide-up" style="animation-delay: 0.1s;">
+    <div class="flex items-start space-x-3">
+      <i class="bi bi-lightbulb text-emerald-400 text-xl mt-0.5"></i>
+      <div class="flex-1">
+        <p class="text-sm text-emerald-200">
+          <strong>Informação:</strong> Este registro representa uma entrada de estoque que foi adicionada ao sistema.
+          A quantidade informada foi automaticamente somada ao estoque do produto correspondente.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 {% endblock %}

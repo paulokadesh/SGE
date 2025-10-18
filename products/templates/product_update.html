@@ -1,19 +1,325 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <div class="container mt-4">
-    <h3 class="display-4">Editar Produto</h3>
+{% block title %}
+  SGE - Editar Produto
+{% endblock %}
 
-    <div class="card">
-      <div class="card-body">
-        <form method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">Salvar Produto</button>
-        </form>
+{% block content %}
+
+<!-- Header Section -->
+<div class="mb-8 animate-slide-down">
+  <div class="flex items-center space-x-3 mb-2">
+    <div class="p-3 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-xl shadow-lg">
+      <i class="bi bi-pencil-square text-white text-2xl"></i>
+    </div>
+    <div>
+      <h1 class="text-3xl font-bold text-white">Editar Produto</h1>
+      <nav class="flex items-center space-x-2 text-sm text-gray-400 mt-1">
+        <a href="{% url 'home' %}" class="hover:text-indigo-400 transition-colors">Home</a>
+        <i class="bi bi-chevron-right text-xs"></i>
+        <a href="{% url 'product_list' %}" class="hover:text-indigo-400 transition-colors">Produtos</a>
+        <i class="bi bi-chevron-right text-xs"></i>
+        <span class="text-indigo-400">Editar</span>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Form Container -->
+<div class="max-w-4xl mx-auto">
+  <div class="glass-effect rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden animate-slide-up">
+
+    <!-- Form Header -->
+    <div class="px-6 py-4 bg-gradient-to-r from-slate-800/80 to-slate-900/80 border-b border-slate-700/50">
+      <div class="flex items-center space-x-2">
+        <i class="bi bi-pencil text-amber-400 text-xl"></i>
+        <h3 class="text-lg font-semibold text-white">Atualizar Informações do Produto</h3>
       </div>
     </div>
 
-    <a href="{% url 'product_list' %}" class="btn btn-secondary mt-3">Cancelar e Voltar para a Lista de Produtos</a>
+    <!-- Form Body -->
+    <div class="p-8">
+
+      <!-- Form Errors Display -->
+      {% if form.errors %}
+        <div class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl animate-slide-down">
+          <div class="flex items-start space-x-3">
+            <i class="bi bi-exclamation-triangle-fill text-red-400 text-xl mt-0.5"></i>
+            <div class="flex-1">
+              <h4 class="text-red-400 font-semibold mb-2">Erros no formulário:</h4>
+              <ul class="list-disc list-inside space-y-1 text-sm text-red-300">
+                {% for field, errors in form.errors.items %}
+                  {% for error in errors %}
+                    <li>
+                      {% if field != '__all__' %}
+                        <strong>{{ field|title }}:</strong>
+                      {% endif %}
+                      {{ error }}
+                    </li>
+                  {% endfor %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Form -->
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Grid Layout for Form Fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Title Field -->
+          <div class="md:col-span-2">
+            <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Título <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="bi bi-box-seam text-gray-500"></i>
+              </span>
+              {{ form.title }}
+              {% if form.title.errors %}
+                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                  <i class="bi bi-exclamation-circle text-red-400"></i>
+                </div>
+              {% endif %}
+            </div>
+            {% if form.title.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.title.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Category Field -->
+          <div>
+            <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Categoria <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                <i class="bi bi-tag text-gray-500"></i>
+              </span>
+              {{ form.category }}
+              <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <i class="bi bi-chevron-down text-gray-500"></i>
+              </span>
+            </div>
+            {% if form.category.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.category.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Brand Field -->
+          <div>
+            <label for="{{ form.brand.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Marca <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                <i class="bi bi-bookmark text-gray-500"></i>
+              </span>
+              {{ form.brand }}
+              <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <i class="bi bi-chevron-down text-gray-500"></i>
+              </span>
+            </div>
+            {% if form.brand.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.brand.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Description Field -->
+          <div class="md:col-span-2">
+            <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Descrição
+            </label>
+            <div class="relative">
+              <span class="absolute top-3 left-0 pl-4 flex items-start pointer-events-none">
+                <i class="bi bi-text-paragraph text-gray-500"></i>
+              </span>
+              {{ form.description }}
+            </div>
+            {% if form.description.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.description.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Serie Number Field -->
+          <div>
+            <label for="{{ form.serie_number.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Número de Série <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="bi bi-upc-scan text-gray-500"></i>
+              </span>
+              {{ form.serie_number }}
+            </div>
+            {% if form.serie_number.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.serie_number.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Quantity Field -->
+          <div>
+            <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Quantidade <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="bi bi-123 text-gray-500"></i>
+              </span>
+              {{ form.quantity }}
+            </div>
+            {% if form.quantity.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.quantity.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Cost Price Field -->
+          <div>
+            <label for="{{ form.cost_price.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Preço de Custo <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="bi bi-currency-dollar text-gray-500"></i>
+              </span>
+              {{ form.cost_price }}
+            </div>
+            {% if form.cost_price.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.cost_price.errors.0 }}</p>
+            {% endif %}
+            <p class="mt-1 text-xs text-gray-500">Valor pago ao fornecedor</p>
+          </div>
+
+          <!-- Selling Price Field -->
+          <div>
+            <label for="{{ form.selling_price.id_for_label }}" class="block text-sm font-medium text-indigo-200 mb-2">
+              Preço de Venda <span class="text-red-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="bi bi-cash-stack text-gray-500"></i>
+              </span>
+              {{ form.selling_price }}
+            </div>
+            {% if form.selling_price.errors %}
+              <p class="mt-2 text-sm text-red-400">{{ form.selling_price.errors.0 }}</p>
+            {% endif %}
+            <p class="mt-1 text-xs text-gray-500">Preço de venda ao cliente</p>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-slate-700/50">
+
+          <!-- Update Button -->
+          <button
+            type="submit"
+            class="group relative px-8 py-3 bg-gradient-to-br from-amber-500 to-yellow-600 text-white font-bold rounded-xl shadow-lg hover:shadow-amber-500/50 hover:scale-105 transition-all duration-300"
+          >
+            <span class="flex items-center justify-center space-x-2">
+              <i class="bi bi-check-circle text-xl"></i>
+              <span>Atualizar Produto</span>
+            </span>
+          </button>
+
+          <!-- Cancel Button -->
+          <a
+            href="{% url 'product_list' %}"
+            class="group relative px-8 py-3 bg-slate-700/50 text-gray-300 font-semibold rounded-xl border border-slate-600 hover:bg-slate-600/50 hover:border-slate-500 hover:scale-105 transition-all duration-300 text-center"
+          >
+            <span class="flex items-center justify-center space-x-2">
+              <i class="bi bi-x-circle text-xl"></i>
+              <span>Cancelar</span>
+            </span>
+          </a>
+
+        </div>
+      </form>
+    </div>
   </div>
+
+  <!-- Help Text -->
+  <div class="mt-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl animate-slide-up" style="animation-delay: 0.1s;">
+    <div class="flex items-start space-x-3">
+      <i class="bi bi-info-circle text-amber-400 text-xl mt-0.5"></i>
+      <div class="flex-1">
+        <p class="text-sm text-amber-200">
+          <strong>Atenção:</strong> Você está editando um produto existente. As alterações serão salvas permanentemente.
+          Campos marcados com <span class="text-red-400">*</span> são obrigatórios.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Custom form field styles */
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    background-color: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgb(51, 65, 85);
+    border-radius: 0.75rem;
+    color: rgb(229, 231, 235);
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+  }
+
+  select {
+    appearance: none;
+    background-image: none;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+    padding-top: 0.75rem;
+    padding-left: 3rem;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: rgb(99, 102, 241);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    background-color: rgba(15, 23, 42, 0.7);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: rgb(107, 114, 128);
+  }
+
+  /* Error state */
+  .errorlist {
+    display: none;
+  }
+
+  input.error,
+  select.error,
+  textarea.error {
+    border-color: rgb(239, 68, 68);
+  }
+
+  input.error:focus,
+  select.error:focus,
+  textarea.error:focus {
+    border-color: rgb(239, 68, 68);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+  }
+</style>
 {% endblock %}
